@@ -1,0 +1,10 @@
+package com.codingdojo.pokebooks.models;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="expenses")
+public class Expense {
+
+}

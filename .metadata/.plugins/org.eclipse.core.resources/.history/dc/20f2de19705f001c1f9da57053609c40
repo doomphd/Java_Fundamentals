@@ -1,0 +1,6 @@
+package com.codingdojo.pokebooks.controllers;
+
+public class HomeController {
+	
+	
+}

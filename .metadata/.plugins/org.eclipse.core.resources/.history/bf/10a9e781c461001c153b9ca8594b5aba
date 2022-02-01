@@ -1,0 +1,5 @@
+package com.codingdojo.javexam.repositories;
+
+public interface ShowRepository {
+
+}

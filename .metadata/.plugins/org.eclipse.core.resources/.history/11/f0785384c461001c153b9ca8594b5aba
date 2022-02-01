@@ -1,0 +1,5 @@
+package com.codingdojo.javexam.controllers;
+
+public class HomeController {
+
+}

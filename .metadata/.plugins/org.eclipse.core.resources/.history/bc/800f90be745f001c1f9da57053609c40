@@ -1,0 +1,93 @@
+package com.codingdojo.pokebooks.controllers;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
+import com.codingdojo.pokebooks.models.Expense;
+import com.codingdojo.pokebooks.services.ExpenseService;
+
+@Controller
+public class HomeController {
+	
+	@Autowired
+	ExpenseService expenseService;
+	
+	@GetMapping("/")
+	public String home() {
+		return "redirect:/dashboard";
+
+	}
+	// ****** find all ********
+	@GetMapping("/dashboard")
+	public String dashboard(Model model) {
+		List<Expense> expenses = expenseService.allExpenses();
+		model.addAttribute("expenses", expenses);
+		return "dashboard.jsp";
+	}
+	
+	// ****** CREATE ******** (GET to render form, POST to process form)
+//	@GetMapping("/expenses/create")
+//	public String createForm(@ModelAttribute("newExpense")Expense newexpense) {
+//		
+//		return "createForm.jsp";
+//	}
+	
+	@PostMapping("/expenses/create")
+	public String processCreateForm(@Valid @ModelAttribute("newExpense")Expense newExpense, 
+			BindingResult result) {
+		if(result.hasErrors()) {
+			return "redirect:/dashboard";
+		}else {
+			expenseService.addExpense(newExpense);
+			return "redirect:/dashboard";			
+		}
+	}
+	
+	// ****** SHOW ONE ******* use path variable
+	@GetMapping("/expenses/{id}")
+	public String show(@PathVariable("id")Long id, Model model) {
+		Expense expense = expenseService.findOneExpense(id);
+		model.addAttribute("expense", expense);
+		return "show.jsp";
+	}
+	
+	// ****** EDIT ******** (combining showOne & create)
+	//  (GET to render form, PUT to process form)
+	@GetMapping("/expenses/{id}/edit")
+	public String edit(@PathVariable("id")Long id, Model model) {
+		Expense expense = expenseService.findOneExpense(id);
+		model.addAttribute("expense", expense);
+		return "edit.jsp";
+	}	
+	
+	@PutMapping("/expenses/{id}/edit")
+	public String editProcess(@Valid @ModelAttribute("expense")Expense Expense,
+			BindingResult result, @PathVariable("id")Long id) {
+		if(result.hasErrors()) {
+			return "edit.jsp";
+		}else {
+			expenseService.editExpense(Expense);
+			return "redirect:/dashboard";
+		}
+	}
+	
+	@DeleteMapping("/expenses/{id}/delete")
+	public String delete(@PathVariable("id")Long id) {
+		expenseService.deleteExpense(id);
+		return "redirect:/dashboard";
+	}
+	
+	
+}

@@ -1,0 +1,115 @@
+package com.codingdojo.javaexam.controllers;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
+import com.codingdojo.javaexam.models.Show;
+import com.codingdojo.javaexam.models.User;
+import com.codingdojo.javaexam.services.ShowService;
+import com.codingdojo.javaexam.services.UserService;
+
+
+
+@Controller
+public class ShowController {
+
+    
+    @Autowired
+    private UserService userServ;
+    
+    @Autowired
+    private ShowService showServ;
+
+    
+    @GetMapping("/shows/{id}")
+    public String showsId(@PathVariable("id") Long id,
+    						Model model, HttpSession session) {
+    	if (session.isNew() || session.getAttribute("user_id") == null) {
+    		return "redirect:/";
+    	}
+    	User loggedInUser = this.userServ.retrieveUser((Long) session.getAttribute("user_id"));
+    	model.addAttribute("loggedInUser", loggedInUser);
+    	Show show = this.showServ.findOneShow(id);
+    	model.addAttribute("show", show);
+    	return "show.jsp";
+    }
+    
+    
+    @GetMapping("/shows/new")
+    public String showsNew(Model model, HttpSession session) {
+    	if (session.isNew() || session.getAttribute("user_id") == null) {
+    		return "redirect:/";
+    	}
+    	User loggedInUser = this.userServ.retrieveUser((Long) session.getAttribute("user_id"));
+    	model.addAttribute("loggedInUser", loggedInUser);
+    	Show newShow = new Show();
+    	model.addAttribute("newShow", newShow);
+    	return "new.jsp";
+    }
+    
+    @PostMapping("/shows/new")
+    public String showsNewPost(@Valid @ModelAttribute("newShow") Show newShow,
+    		BindingResult result, Model model, HttpSession session) {
+    	if (session.isNew() || session.getAttribute("user_id") == null) {
+    		return "redirect:/";
+    	}
+    	User loggedInUser = this.userServ.retrieveUser((Long) session.getAttribute("user_id"));
+    	model.addAttribute("loggedInUser", loggedInUser);
+    	if (result.hasErrors()) {
+            return "new.jsp";
+        } else {
+        	newShow.setUser(loggedInUser);
+            this.showServ.addShow(newShow);
+            return "redirect:/shows";
+        }
+    }
+    
+    
+    @GetMapping("/shows/{id}/edit")
+    public String showsIdEdit(@PathVariable("id") Long id,
+    							Model model, HttpSession session) {
+    	if (session.isNew() || session.getAttribute("user_id") == null) {
+    		return "redirect:/";
+    	}
+    	User loggedInUser = this.userServ.retrieveUser((Long) session.getAttribute("user_id"));
+    	model.addAttribute("loggedInUser", loggedInUser);
+    	Show oldShow = this.showServ.findOneShow(id);
+    	model.addAttribute("oldShow", oldShow);
+    	return "edit.jsp";
+    }
+    
+    @PutMapping("/shows/{id}/edit")
+    public String showsIdEditPutt(@Valid @ModelAttribute("oldShow") Show oldShow,
+    		BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session) {
+    	if (session.isNew() || session.getAttribute("user_id") == null) {
+    		return "redirect:/";
+    	}
+    	User loggedInUser = this.userServ.retrieveUser((Long) session.getAttribute("user_id"));
+    	model.addAttribute("loggedInUser", loggedInUser);
+    	oldShow.setUser(loggedInUser);
+    	if (result.hasErrors()) {
+            return "edit.jsp";
+        } else {
+        	this.showServ.editShow(oldShow);
+            return "redirect:/shows";
+        }
+    }
+	
+    
+    @DeleteMapping("/shows/{id}/delete")
+    public String showsIdDelete(@PathVariable("id") Long id, Model model) {
+    	this.showServ.deleteShow(id);
+    	return "redirect:/shows";
+    }
+}

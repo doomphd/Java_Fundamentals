@@ -1,0 +1,14 @@
+package com.codingdojo.javexam.repositories;
+
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.codingdojo.jav.models.Book;
+
+@Repository
+public interface ShowRepository extends CrudRepository<Book, Long>{
+	List<Show> findAll();
+
+}

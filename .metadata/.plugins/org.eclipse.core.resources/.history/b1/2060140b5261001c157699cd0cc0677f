@@ -1,0 +1,5 @@
+package com.codingdojo.login.repositories;
+
+public interface UserRepository {
+
+}

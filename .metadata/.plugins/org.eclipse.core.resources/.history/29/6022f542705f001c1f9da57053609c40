@@ -1,0 +1,5 @@
+package com.codingdojo.pokebooks.repositories;
+
+public interface ExpenseRepository {
+
+}

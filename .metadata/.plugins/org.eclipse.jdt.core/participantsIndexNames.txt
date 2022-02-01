@@ -1,0 +1,13 @@
+INDEX VERSION 1.131
+C:\Users\Truman\Desktop\Java_Fundamentals\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1957203185.index
+\OmikujiForm\src\main\java
+C:\Users\Truman\Desktop\Java_Fundamentals\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1049995911.index
+\bookclub\src\main\java
+C:\Users\Truman\Desktop\Java_Fundamentals\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2215462925.index
+\login\src\main\java
+C:\Users\Truman\Desktop\Java_Fundamentals\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1412885083.index
+\pokebooks\src\main\java
+C:\Users\Truman\Desktop\Java_Fundamentals\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3369300155.index
+\javaexam\src\main\java
+C:\Users\Truman\Desktop\Java_Fundamentals\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\318356027.index
+\pokebooks\src\main\java

@@ -1,0 +1,5 @@
+package com.codingdojo.javaexam.controllers;
+
+public class HomeController {
+
+}
